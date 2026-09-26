@@ -1,0 +1,826 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Filipa Andrea (Pippa) - La Reina de la Piña y el Caos</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/canvas-confetti/1.6.0/confetti.browser.min.js"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800;900&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+            serif: ['"Playfair Display"', 'serif'],
+          },
+          colors: {
+            pippa: {
+              gold: '#E39D4E',
+              warm: '#F7D9B6',
+              cream: '#FDFBF7',
+              pink: '#F8B4C4',
+              rose: '#E65D7E',
+              dark: '#261C14',
+              brown: '#6B4226',
+            }
+          },
+          keyframes: {
+            wiggle: {
+              '0%, 100%': { transform: 'rotate(-4deg)' },
+              '50%': { transform: 'rotate(4deg)' },
+            },
+            float: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-10px)' },
+            }
+          },
+          animation: {
+            wiggle: 'wiggle 1s ease-in-out infinite',
+            float: 'float 3s ease-in-out infinite',
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #FAF6F0;
+      color: #2D231E;
+      overflow-x: hidden;
+    }
+    .text-stroke {
+      -webkit-text-stroke: 1.5px #261C14;
+    }
+    .badge-fun {
+      box-shadow: 3px 3px 0px #261C14;
+    }
+    .card-comic {
+      border: 3px solid #261C14;
+      box-shadow: 6px 6px 0px #261C14;
+      transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+    .card-comic:hover {
+      transform: translate(-3px, -3px);
+      box-shadow: 9px 9px 0px #261C14;
+    }
+    /* Custom styling for floating carrots */
+    .floating-item {
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+      animation: fallDown 2.5s linear forwards;
+    }
+    @keyframes fallDown {
+      0% { transform: translateY(-50px) rotate(0deg); opacity: 1; }
+      100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+    }
+  </style>
+</head>
+<body class="selection:bg-pippa-pink selection:text-pippa-dark">
+
+  <header class="sticky top-0 z-50 bg-[#FAF6F0]/90 backdrop-blur-md border-b-2 border-pippa-dark py-3 px-4 sm:px-8">
+    <div class="max-w-6xl mx-auto flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <span class="text-3xl animate-wiggle inline-block">🍍</span>
+        <div>
+          <h1 class="text-lg sm:text-xl font-extrabold tracking-tight text-pippa-dark leading-none">
+            FILIPA ANDREA <span class="text-pippa-rose">“PIPPA”</span>
+          </h1>
+          <p class="text-xs text-stone-500 font-semibold">Cocker Spaniel Oficial • 0% Pensamientos en la Cabeza</p>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <button id="bark-btn" class="bg-pippa-gold hover:bg-amber-400 text-pippa-dark font-extrabold px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs sm:text-sm border-2 border-pippa-dark badge-fun transition-transform active:translate-x-1 active:translate-y-1">
+          🐾 ¡Guau! (Ladrar)
+        </button>
+        <button id="carrot-rain-btn" class="bg-orange-400 hover:bg-orange-500 text-white font-extrabold px-3 py-1.5 sm:px-4 sm:py-2 rounded-xl text-xs sm:text-sm border-2 border-pippa-dark badge-fun transition-transform active:translate-x-1 active:translate-y-1">
+          🥕 Dar Zanahoria
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <section class="max-w-6xl mx-auto px-4 pt-10 pb-12 sm:pt-16 sm:pb-16">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+      <div class="lg:col-span-7 space-y-5 text-center lg:text-left">
+        <div class="inline-flex items-center gap-2 bg-pink-100 border-2 border-pippa-dark px-3 py-1 rounded-full text-xs font-bold text-pippa-rose badge-fun">
+          <span>👑 La Dictadora Consentida del Hogar</span>
+        </div>
+        <h2 class="text-4xl sm:text-6xl font-black text-pippa-dark leading-[1.05] tracking-tight">
+          Filipa Andrea <br/>
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-amber-600 via-pippa-gold to-orange-500 font-serif italic">
+            Orellana Torrealba
+          </span>
+        </h2>
+        <p class="text-base sm:text-lg text-stone-700 leading-relaxed font-medium">
+          Conocida internacionalmente en su depa como <strong>Pippa</strong>. Una cocker spaniel profundamente feliz, enérgica, hermosa y de noble corazón... aunque con un historial policial cuestionable: adicta a masticar su <strong>piña amarilla</strong>, cazar tobillos de <strong>niños chicos</strong>, masticar zanahorias crudas y cometer alguna que otra estupidez biológica.
+        </p>
+        
+        <!-- Action quick-badges -->
+        <div class="flex flex-wrap justify-center lg:justify-start gap-2 pt-2">
+          <span class="bg-amber-100 border-2 border-pippa-dark px-3 py-1 rounded-xl text-xs font-bold text-amber-900">
+            🐶 Cocker 100% Pura Raza
+          </span>
+          <span class="bg-rose-100 border-2 border-pippa-dark px-3 py-1 rounded-xl text-xs font-bold text-rose-800">
+            👶 Amenaza para los Niños
+          </span>
+          <span class="bg-yellow-100 border-2 border-pippa-dark px-3 py-1 rounded-xl text-xs font-bold text-yellow-900">
+            🍍 Amante Obsesiva de la Piña
+          </span>
+          <span class="bg-stone-200 border-2 border-pippa-dark px-3 py-1 rounded-xl text-xs font-bold text-stone-800">
+            🧠 Media Weona pero Teletón de Amor
+          </span>
+        </div>
+
+        <div class="pt-4 flex flex-col sm:flex-row gap-3 justify-center lg:justify-start">
+          <a href="#galeria" class="bg-pippa-rose text-white font-extrabold text-sm px-6 py-3 rounded-2xl border-2 border-pippa-dark badge-fun text-center hover:bg-rose-600 transition">
+            📸 Ver Evidencias Gráficas
+          </a>
+          <a href="#minijuego" class="bg-emerald-400 text-pippa-dark font-extrabold text-sm px-6 py-3 rounded-2xl border-2 border-pippa-dark badge-fun text-center hover:bg-emerald-300 transition">
+            🎮 Salvar la Guatita de Pippa
+          </a>
+        </div>
+      </div>
+
+      <div class="lg:col-span-5 flex justify-center">
+        <div class="relative max-w-xs sm:max-w-sm w-full">
+          <div class="card-comic bg-amber-50 rounded-3xl p-3 bg-white transform rotate-2">
+            <div class="relative overflow-hidden rounded-2xl border-2 border-pippa-dark aspect-[4/5] bg-amber-100">
+              <img src="image_2.png" 
+                   alt="Pippa mirando con carita tierna" 
+                   class="w-full h-full object-cover object-top hover:scale-105 transition-transform duration-500"
+                   onerror="this.src='https://placehold.co/400x500/E39D4E/261C14?text=Pippa+Tierna'">
+              <div class="absolute bottom-2 left-2 right-2 bg-white/95 backdrop-blur-sm border-2 border-pippa-dark rounded-xl p-2 text-center">
+                <p class="text-xs font-extrabold text-pippa-dark">"No sé qué hice pero te juro que fui yo"</p>
+              </div>
+            </div>
+          </div>
+          <!-- Pin decoration -->
+          <div class="absolute -top-3 -right-2 bg-yellow-400 border-2 border-pippa-dark rounded-full p-2 animate-bounce badge-fun">
+            <span class="text-xl">⭐</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="max-w-5xl mx-auto px-4 mb-16">
+    <div class="card-comic bg-white rounded-3xl p-6 sm:p-8">
+      <div class="text-center max-w-xl mx-auto mb-8">
+        <span class="bg-amber-100 text-amber-900 border-2 border-pippa-dark text-xs font-black uppercase px-3 py-1 rounded-full badge-fun">
+          Diagnóstico Clínico y Moral
+        </span>
+        <h3 class="text-2xl sm:text-3xl font-black text-pippa-dark mt-3">
+          El Panel de Control de Filipa 🎛️
+        </h3>
+        <p class="text-sm text-stone-600 mt-1 font-medium">
+          Parámetros vitales registrados bajo la supervisión de sus humanos favoritos.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <!-- Metric 1: Amor y Ternura -->
+        <div class="bg-pink-50 border-2 border-pippa-dark rounded-2xl p-5 relative overflow-hidden">
+          <div class="flex justify-between items-center mb-2">
+            <span class="font-extrabold text-sm text-pippa-dark">Ternura & Bondad</span>
+            <span class="text-xl">🥺</span>
+          </div>
+          <div class="w-full bg-white border border-pippa-dark rounded-full h-4 overflow-hidden p-0.5">
+            <div class="bg-pippa-rose h-full rounded-full w-[100%] transition-all duration-1000"></div>
+          </div>
+          <p class="text-xs font-semibold text-stone-600 mt-2">100% Perra buena, adorable y besucona profesional.</p>
+        </div>
+
+        <!-- Metric 2: Weonera oficial -->
+        <div class="bg-amber-50 border-2 border-pippa-dark rounded-2xl p-5 relative overflow-hidden">
+          <div class="flex justify-between items-center mb-2">
+            <span class="font-extrabold text-sm text-pippa-dark">Nivel de Weonera</span>
+            <span class="text-xl">🤪</span>
+          </div>
+          <div class="w-full bg-white border border-pippa-dark rounded-full h-4 overflow-hidden p-0.5">
+            <div id="weona-meter-bar" class="bg-amber-500 h-full rounded-full w-[94%] transition-all duration-700"></div>
+          </div>
+          <div class="flex justify-between items-center mt-2">
+            <p id="weona-status-text" class="text-xs font-semibold text-stone-600">Media weona crónica (Irreparable)</p>
+            <button id="weona-boost-btn" class="text-[10px] font-black uppercase bg-white border border-pippa-dark px-2 py-0.5 rounded-lg hover:bg-stone-100 active:scale-95">
+              + Subir
+            </button>
+          </div>
+        </div>
+
+        <!-- Metric 3: Peligro para los Niños -->
+        <div class="bg-red-50 border-2 border-pippa-dark rounded-2xl p-5 relative overflow-hidden">
+          <div class="flex justify-between items-center mb-2">
+            <span class="font-extrabold text-sm text-red-900">Ansias de Morder Niños</span>
+            <span class="text-xl">🧛‍♀️</span>
+          </div>
+          <div class="w-full bg-white border border-pippa-dark rounded-full h-4 overflow-hidden p-0.5">
+            <div class="bg-red-500 h-full rounded-full w-[88%] animate-pulse"></div>
+          </div>
+          <p class="text-xs font-semibold text-stone-600 mt-2">Los tobillos infantiles nunca estuvieron tan en riesgo.</p>
+        </div>
+      </div>
+
+      <div class="mt-6 pt-6 border-t-2 border-dashed border-stone-300 grid grid-cols-2 sm:grid-cols-4 gap-4 text-center">
+        <div class="bg-stone-50 border border-stone-300 rounded-xl p-3">
+          <span class="text-xl block">🥕</span>
+          <span class="text-xs text-stone-500 block">Snack Soñado</span>
+          <strong class="text-xs sm:text-sm font-black text-pippa-dark">Zanahorias</strong>
+        </div>
+        <div class="bg-stone-50 border border-stone-300 rounded-xl p-3">
+          <span class="text-xl block">🍍</span>
+          <span class="text-xs text-stone-500 block">Juguete Sagrado</span>
+          <strong class="text-xs sm:text-sm font-black text-pippa-dark">Piña Amarilla</strong>
+        </div>
+        <div class="bg-stone-50 border border-stone-300 rounded-xl p-3">
+          <span class="text-xl block">🎖️</span>
+          <span class="text-xs text-stone-500 block">Rango Secreto</span>
+          <strong class="text-xs sm:text-sm font-black text-pippa-dark">General Orellana</strong>
+        </div>
+        <div class="bg-stone-50 border border-stone-300 rounded-xl p-3">
+          <span class="text-xl block">🤢</span>
+          <span class="text-xs text-stone-500 block">Digestión</span>
+          <strong class="text-xs sm:text-sm font-black text-pippa-dark">Si abusa, vomita</strong>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="galeria" class="max-w-6xl mx-auto px-4 mb-20">
+    <div class="text-center max-w-2xl mx-auto mb-12">
+      <span class="bg-pippa-pink text-pippa-dark border-2 border-pippa-dark text-xs font-black uppercase px-3 py-1 rounded-full badge-fun">
+        Archivo Fotográfico Desclasificado
+      </span>
+      <h3 class="text-3xl sm:text-4xl font-black text-pippa-dark mt-3">
+        Las Múltiples Caras de Pippa 📸
+      </h3>
+      <p class="text-sm sm:text-base text-stone-600 mt-2 font-medium">
+        Desde su uniforme de alto rango militar hasta sus siestas estilo alfombra persa en vestido de gala.
+      </p>
+    </div>
+
+    <!-- Gallery Grid with the user's specific photos -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+
+      <!-- Photo 1: General Orellana -->
+      <div class="card-comic bg-white rounded-2xl p-3 flex flex-col justify-between group">
+        <div>
+          <div class="overflow-hidden rounded-xl border-2 border-pippa-dark aspect-square bg-stone-100 relative">
+            <img src="image_5.png" alt="General Filipa Andrea Orellana" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+            <span class="absolute top-2 left-2 bg-red-600 text-white text-[10px] font-black uppercase px-2 py-0.5 rounded-md border border-pippa-dark">
+              Mariscal Supremo
+            </span>
+          </div>
+          <div class="mt-3">
+            <h4 class="font-black text-pippa-dark text-base">Comandante Filipa</h4>
+            <p class="text-xs text-stone-600 mt-1">Condecorada por sus exitosas campañas contra los niños del parque y la defensa de la piña sagrada.</p>
+          </div>
+        </div>
+        <div class="mt-3 pt-2 border-t border-stone-200 flex justify-between items-center text-xs font-bold text-stone-500">
+          <span>Rango: General</span>
+          <span class="text-amber-600">🎖️ Héroe Canino</span>
+        </div>
+      </div>
+
+      <!-- Photo 2: Pineapple chewing -->
+      <div class="card-comic bg-white rounded-2xl p-3 flex flex-col justify-between group">
+        <div>
+          <div class="overflow-hidden rounded-xl border-2 border-pippa-dark aspect-square bg-stone-100 relative">
+            <img src="image_8.png" alt="Pippa mordiendo su piña de goma" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+            <span class="absolute top-2 left-2 bg-yellow-400 text-pippa-dark text-[10px] font-black uppercase px-2 py-0.5 rounded-md border border-pippa-dark">
+              Obsesión Total
+            </span>
+          </div>
+          <div class="mt-3">
+            <h4 class="font-black text-pippa-dark text-base">La Piña Amarilla</h4>
+            <p class="text-xs text-stone-600 mt-1">Su juguete supremo. Con pinchos de goma, imposible de soltar. Si alguien se la quita, hay guerra.</p>
+          </div>
+        </div>
+        <div class="mt-3 pt-2 border-t border-stone-200 flex justify-between items-center text-xs font-bold text-stone-500">
+          <span>Juguete #1</span>
+          <button onclick="playPineappleSqueak()" class="text-xs text-amber-700 bg-yellow-100 px-2 py-1 rounded-lg border border-pippa-dark hover:bg-yellow-200">
+            🍍 Apretar piña
+          </button>
+        </div>
+      </div>
+
+      <!-- Photo 3: Sleeping in dress on the floor -->
+      <div class="card-comic bg-white rounded-2xl p-3 flex flex-col justify-between group">
+        <div>
+          <div class="overflow-hidden rounded-xl border-2 border-pippa-dark aspect-square bg-stone-100 relative">
+            <img src="image.png" alt="Pippa durmiendo como alfombra con vestido floreado" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+            <span class="absolute top-2 left-2 bg-pink-400 text-white text-[10px] font-black uppercase px-2 py-0.5 rounded-md border border-pippa-dark">
+              Modo Alfombra
+            </span>
+          </div>
+          <div class="mt-3">
+            <h4 class="font-black text-pippa-dark text-base">Elegancia Derretida</h4>
+            <p class="text-xs text-stone-600 mt-1">Vestido floreado de alta costura mientras duerme estirada en el suelo de la cocina como si no tuviera huesos.</p>
+          </div>
+        </div>
+        <div class="mt-3 pt-2 border-t border-stone-200 flex justify-between items-center text-xs font-bold text-stone-500">
+          <span>Postura: Panqueque</span>
+          <span class="text-pippa-rose">🌸 Fashion Dog</span>
+        </div>
+      </div>
+
+      <!-- Photo 4: Birthday 3 invitation -->
+      <div class="card-comic bg-white rounded-2xl p-3 flex flex-col justify-between group">
+        <div>
+          <div class="overflow-hidden rounded-xl border-2 border-pippa-dark aspect-square bg-stone-100 relative">
+            <img src="image_6.png" alt="Invitación al cumpleaños 3 de Pippa" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+            <span class="absolute top-2 left-2 bg-emerald-400 text-pippa-dark text-[10px] font-black uppercase px-2 py-0.5 rounded-md border border-pippa-dark">
+              11 de Agosto
+            </span>
+          </div>
+          <div class="mt-3">
+            <h4 class="font-black text-pippa-dark text-base">Cumpleaños N° 3</h4>
+            <p class="text-xs text-stone-600 mt-1">El evento del año en el depto de sus papis. Tarta para perros, bonete y mucho amor incondicional.</p>
+          </div>
+        </div>
+        <div class="mt-3 pt-2 border-t border-stone-200 flex justify-between items-center text-xs font-bold text-stone-500">
+          <span>Edad: 3 añitos</span>
+          <button onclick="triggerBirthdayConfetti()" class="text-xs text-rose-700 bg-pink-100 px-2 py-1 rounded-lg border border-pippa-dark hover:bg-pink-200">
+            🎉 ¡Festejar!
+          </button>
+        </div>
+      </div>
+
+      <!-- Photo 5: Upside-down selfie -->
+      <div class="card-comic bg-white rounded-2xl p-3 flex flex-col justify-between group">
+        <div>
+          <div class="overflow-hidden rounded-xl border-2 border-pippa-dark aspect-square bg-stone-100 relative">
+            <img src="image_3.png" alt="Pippa al revés en su chalequito de huesos" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+            <span class="absolute top-2 left-2 bg-purple-400 text-white text-[10px] font-black uppercase px-2 py-0.5 rounded-md border border-pippa-dark">
+              0 Neuronas
+            </span>
+          </div>
+          <div class="mt-3">
+            <h4 class="font-black text-pippa-dark text-base">La Señal se Perdió</h4>
+            <p class="text-xs text-stone-600 mt-1">Chalequito rosado con huesos y una cara que confirma científicamente que es media weona pero tiernísima.</p>
+          </div>
+        </div>
+        <div class="mt-3 pt-2 border-t border-stone-200 flex justify-between items-center text-xs font-bold text-stone-500">
+          <span>Ángulo: Gravitacional</span>
+          <span class="text-purple-600">🦴 Chaleco Love</span>
+        </div>
+      </div>
+
+      <!-- Photo 6: Teefies / Biting children prep -->
+      <div class="card-comic bg-white rounded-2xl p-3 flex flex-col justify-between group">
+        <div>
+          <div class="overflow-hidden rounded-xl border-2 border-pippa-dark aspect-square bg-stone-100 relative">
+            <img src="image_4.png" alt="Pippa mostrando los dientitos" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+            <span class="absolute top-2 left-2 bg-orange-500 text-white text-[10px] font-black uppercase px-2 py-0.5 rounded-md border border-pippa-dark">
+              Modo Tiburón
+            </span>
+          </div>
+          <div class="mt-3">
+            <h4 class="font-black text-pippa-dark text-base">Los Dientecitos</h4>
+            <p class="text-xs text-stone-600 mt-1">Afilando el colmillo. Advertencia: si eres un niño y corres por su pasillo, te ganaste un mordisco amistoso.</p>
+          </div>
+        </div>
+        <div class="mt-3 pt-2 border-t border-stone-200 flex justify-between items-center text-xs font-bold text-stone-500">
+          <span>Arma: Colmillitos</span>
+          <span class="text-orange-600">🦷 Cuidado Niños</span>
+        </div>
+      </div>
+
+      <!-- Photo 7: Deep eyes looking up -->
+      <div class="card-comic bg-white rounded-2xl p-3 flex flex-col justify-between group">
+        <div>
+          <div class="overflow-hidden rounded-xl border-2 border-pippa-dark aspect-square bg-stone-100 relative">
+            <img src="image_7.png" alt="Pippa mirando hacia arriba con ojitos chantas" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+            <span class="absolute top-2 left-2 bg-amber-600 text-white text-[10px] font-black uppercase px-2 py-0.5 rounded-md border border-pippa-dark">
+              Chantaje Máximo
+            </span>
+          </div>
+          <div class="mt-3">
+            <h4 class="font-black text-pippa-dark text-base">Mirada de Culpabilidad Cero</h4>
+            <p class="text-xs text-stone-600 mt-1">¿Comer caca en el patio? ¿Quién, yo? Imposible, mira mis ojos castaños de niña buena e inocente.</p>
+          </div>
+        </div>
+        <div class="mt-3 pt-2 border-t border-stone-200 flex justify-between items-center text-xs font-bold text-stone-500">
+          <span>Hipnotismo: 10/10</span>
+          <span class="text-amber-700">👀 Ojitos Tristes</span>
+        </div>
+      </div>
+
+      <!-- Photo 8: Cloud wallpaper sweet hug -->
+      <div class="card-comic bg-white rounded-2xl p-3 flex flex-col justify-between group">
+        <div>
+          <div class="overflow-hidden rounded-xl border-2 border-pippa-dark aspect-square bg-stone-100 relative">
+            <img src="image_2.png" alt="Pippa abrazada con fondo de cielo con nubes" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+            <span class="absolute top-2 left-2 bg-sky-500 text-white text-[10px] font-black uppercase px-2 py-0.5 rounded-md border border-pippa-dark">
+              En las Nubes
+            </span>
+          </div>
+          <div class="mt-3">
+            <h4 class="font-black text-pippa-dark text-base">La consentida de la casa</h4>
+            <p class="text-xs text-stone-600 mt-1">Rodeada de amor, caricias en el pechito y suéter acogedor. Una perra profundamente feliz y regalona.</p>
+          </div>
+        </div>
+        <div class="mt-3 pt-2 border-t border-stone-200 flex justify-between items-center text-xs font-bold text-stone-500">
+          <span>Regaloneo: Máximo</span>
+          <span class="text-sky-600">☁️ Pura Paz</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <section class="max-w-4xl mx-auto px-4 mb-20">
+    <div class="card-comic bg-amber-100/60 rounded-3xl p-6 sm:p-10 border-4 border-pippa-dark">
+      <div class="flex items-center gap-3 border-b-2 border-pippa-dark pb-4 mb-6">
+        <span class="text-3xl">📋</span>
+        <div>
+          <h3 class="text-2xl font-black text-pippa-dark uppercase tracking-wide">
+            Prontuario Confidencial de Pippa
+          </h3>
+          <p class="text-xs text-stone-600 font-bold">Registro no oficial de hábitos, vicios y virtudes</p>
+        </div>
+      </div>
+
+      <div class="space-y-4">
+        <!-- Item 1: Zanahorias -->
+        <div class="bg-white border-2 border-pippa-dark rounded-xl p-4 flex gap-4 items-start">
+          <div class="text-3xl bg-orange-100 p-2 rounded-xl border border-pippa-dark">🥕</div>
+          <div>
+            <h4 class="font-black text-stone-900 text-base">Pasión Desbordante: Zanahorias Crudas</h4>
+            <p class="text-xs sm:text-sm text-stone-600 mt-0.5">
+              Escucha abrirse el cajón de las verduras a tres kilómetros de distancia. Si le das un pedazo, lo mastica con frenesí crujiente. Es su verdura de culto.
+            </p>
+          </div>
+        </div>
+
+        <!-- Item 2: Morder Niños -->
+        <div class="bg-white border-2 border-pippa-dark rounded-xl p-4 flex gap-4 items-start">
+          <div class="text-3xl bg-red-100 p-2 rounded-xl border border-pippa-dark">🏃‍♂️</div>
+          <div>
+            <h4 class="font-black text-stone-900 text-base">Deporte Extremo: Perseguir y morder niños</h4>
+            <p class="text-xs sm:text-sm text-stone-600 mt-0.5">
+              No es por maldad, ¡es su manera enérgica de socializar! Cualquier sobrino, primo chico o transeúnte de baja estatura corre el riesgo de recibir una mordidita express en la canilla.
+            </p>
+          </div>
+        </div>
+
+        <!-- Item 3: La Caca y el Vómito -->
+        <div class="bg-white border-2 border-pippa-dark rounded-xl p-4 flex gap-4 items-start">
+          <div class="text-3xl bg-amber-100 p-2 rounded-xl border border-pippa-dark">💩</div>
+          <div>
+            <h4 class="font-black text-stone-900 text-base">Costumbres Gastronómicas Cuestionables (Come caca & vomitona)</h4>
+            <p class="text-xs sm:text-sm text-stone-600 mt-0.5">
+              Tiene gustos culinarios... polémicos. A veces encuentra caca y decide que es un manjar gourmet. Y cuando le dan ataques de gula y come de más: ¡guácatela, vomita en la alfombra! Por eso hay que cuidarle la guatita.
+            </p>
+          </div>
+        </div>
+
+        <!-- Item 4: Es media weona pero tierna -->
+        <div class="bg-white border-2 border-pippa-dark rounded-xl p-4 flex gap-4 items-start">
+          <div class="text-3xl bg-pink-100 p-2 rounded-xl border border-pippa-dark">👑</div>
+          <div>
+            <h4 class="font-black text-stone-900 text-base">Diagnóstico Final: "Media Weona pero un Sol de Perra"</h4>
+            <p class="text-xs sm:text-sm text-stone-600 mt-0.5">
+              Se choca sola con las puertas, mira a la pared pensando en nada, duerme desparramada como pellejo, pero su dulzura y alegría llenan toda la casa. Imposible no amarla.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="minijuego" class="max-w-4xl mx-auto px-4 mb-24">
+    <div class="card-comic bg-white rounded-3xl p-6 sm:p-8">
+      <div class="text-center max-w-xl mx-auto mb-6">
+        <span class="bg-emerald-300 text-pippa-dark border-2 border-pippa-dark text-xs font-black uppercase px-3 py-1 rounded-full badge-fun">
+          Minijuego Oficial
+        </span>
+        <h3 class="text-2xl sm:text-3xl font-black text-pippa-dark mt-2">
+          ¡Alimenta a Pippa con Cuidado! 🐶🍽️
+        </h3>
+        <p class="text-xs sm:text-sm text-stone-600 mt-1">
+          Dale <strong>Zanahorias 🥕</strong> y <strong>Piñas 🍍</strong> para hacerla feliz. <br/>
+          ¡Cuidado! No la dejes comer <strong>Caca 💩</strong> ni la llenes hasta el 100% o vomitará.
+        </p>
+      </div>
+
+      <!-- Game dashboard -->
+      <div class="bg-amber-50 border-2 border-pippa-dark rounded-2xl p-4 mb-6">
+        <div class="grid grid-cols-3 gap-2 text-center">
+          <div>
+            <span class="text-xs font-bold text-stone-500 uppercase">Felicidad</span>
+            <div id="game-happiness" class="text-xl sm:text-2xl font-black text-emerald-600">0 pts</div>
+          </div>
+          <div>
+            <span class="text-xs font-bold text-stone-500 uppercase">Nivel Guatita</span>
+            <div id="game-fullness-text" class="text-xl sm:text-2xl font-black text-amber-700">0%</div>
+          </div>
+          <div>
+            <span class="text-xs font-bold text-stone-500 uppercase">Estado</span>
+            <div id="game-status" class="text-sm sm:text-base font-extrabold text-pippa-dark">Con hambre 🥺</div>
+          </div>
+        </div>
+
+        <!-- Belly fullness meter -->
+        <div class="mt-3">
+          <div class="flex justify-between text-[11px] font-bold text-stone-500 mb-1">
+            <span>Vacía</span>
+            <span class="text-red-500 font-extrabold">⚠️ ¡Peligro de Vómito (100%)!</span>
+          </div>
+          <div class="w-full bg-stone-200 border-2 border-pippa-dark rounded-full h-5 overflow-hidden p-0.5">
+            <div id="belly-bar" class="bg-emerald-400 h-full rounded-full transition-all duration-300 w-0"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Pippa Avatar in game -->
+      <div class="flex flex-col items-center justify-center py-4">
+        <div id="dog-avatar-container" class="relative w-44 h-44 rounded-full border-4 border-pippa-dark bg-amber-100 overflow-hidden shadow-inner flex items-center justify-center">
+          <img id="game-dog-img" src="image_2.png" alt="Pippa Feliz" class="w-full h-full object-cover">
+          <div id="dog-speech" class="absolute bottom-2 bg-white/95 px-3 py-1 rounded-full text-xs font-extrabold border border-pippa-dark text-stone-800 transition-opacity">
+            ¡Tengo hambrita!
+          </div>
+        </div>
+      </div>
+
+      <!-- Action buttons -->
+      <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mt-4">
+        <button id="feed-carrot-btn" class="bg-orange-400 hover:bg-orange-500 text-white font-extrabold py-3 px-2 rounded-2xl border-2 border-pippa-dark badge-fun flex flex-col items-center gap-1 active:translate-y-1">
+          <span class="text-2xl">🥕</span>
+          <span class="text-xs">Zanahoria (+10 pts)</span>
+        </button>
+
+        <button id="give-pineapple-btn" class="bg-yellow-400 hover:bg-yellow-500 text-pippa-dark font-extrabold py-3 px-2 rounded-2xl border-2 border-pippa-dark badge-fun flex flex-col items-center gap-1 active:translate-y-1">
+          <span class="text-2xl">🍍</span>
+          <span class="text-xs">Piña (+15 Amor)</span>
+        </button>
+
+        <button id="digest-nap-btn" class="bg-blue-300 hover:bg-blue-400 text-pippa-dark font-extrabold py-3 px-2 rounded-2xl border-2 border-pippa-dark badge-fun flex flex-col items-center gap-1 active:translate-y-1">
+          <span class="text-2xl">😴</span>
+          <span class="text-xs">Siesta (-25% Guata)</span>
+        </button>
+
+        <button id="bad-poop-btn" class="bg-amber-800 hover:bg-amber-900 text-white font-extrabold py-3 px-2 rounded-2xl border-2 border-pippa-dark badge-fun flex flex-col items-center gap-1 active:translate-y-1">
+          <span class="text-2xl">💩</span>
+          <span class="text-xs">Comer Caca (¡NO!)</span>
+        </button>
+      </div>
+
+      <!-- Interactive message banner -->
+      <div id="game-message-box" class="mt-4 p-3 bg-stone-100 border border-stone-300 rounded-xl text-center text-xs font-bold text-stone-700">
+        Haz clic en los botones para interactuar con Pippa.
+      </div>
+    </div>
+  </section>
+
+  <section class="max-w-4xl mx-auto px-4 mb-20 text-center">
+    <div class="card-comic bg-pippa-warm/40 rounded-3xl p-6 sm:p-8">
+      <h3 class="text-2xl font-black text-pippa-dark">Botonera de Sonidos de Pippa 🎵</h3>
+      <p class="text-xs sm:text-sm text-stone-600 mt-1 mb-6">Sintetizador en tiempo real sin archivos externos.</p>
+      
+      <div class="flex flex-wrap justify-center gap-3">
+        <button onclick="playDogBark()" class="bg-white hover:bg-amber-100 text-pippa-dark font-extrabold px-4 py-2 rounded-xl border-2 border-pippa-dark badge-fun text-xs sm:text-sm">
+          🐶 Ladrido Agudo
+        </button>
+        <button onclick="playPineappleSqueak()" class="bg-yellow-300 hover:bg-yellow-400 text-pippa-dark font-extrabold px-4 py-2 rounded-xl border-2 border-pippa-dark badge-fun text-xs sm:text-sm">
+          🍍 Chifle de la Piña
+        </button>
+        <button onclick="playCrunch()" class="bg-orange-300 hover:bg-orange-400 text-pippa-dark font-extrabold px-4 py-2 rounded-xl border-2 border-pippa-dark badge-fun text-xs sm:text-sm">
+          🥕 Crunch Zanahoria
+        </button>
+        <button onclick="playWhine()" class="bg-pink-300 hover:bg-pink-400 text-pippa-dark font-extrabold px-4 py-2 rounded-xl border-2 border-pippa-dark badge-fun text-xs sm:text-sm">
+          🥺 Lloriqueo Chantita
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <footer class="border-t-2 border-pippa-dark bg-[#FAF6F0] py-10 px-4 text-center">
+    <div class="max-w-xl mx-auto space-y-3">
+      <div class="text-3xl animate-bounce">❤️🐶🥕🍍</div>
+      <h4 class="font-black text-lg text-pippa-dark">
+        Filipa Andrea Orellana Torrealba
+      </h4>
+      <p class="text-xs text-stone-600">
+        Dedicado a la cocker spaniel más loquilla, enérgica, media weona y maravillosa de todas. Creado con amor para celebrar su existencia.
+      </p>
+      <p class="text-[11px] text-stone-400 font-semibold pt-2">
+        Todos los derechos reservados a Pippa y a su piña amarilla de plástico.
+      </p>
+    </div>
+  </footer>
+
+  <script>
+    let synth = null;
+    let noiseSynth = null;
+
+    function getAudioContext() {
+      if (Tone.context.state !== 'running') {
+        Tone.start();
+      }
+      if (!synth) {
+        synth = new Tone.PolySynth(Tone.Synth, {
+          oscillator: { type: 'triangle' },
+          envelope: { attack: 0.01, decay: 0.1, sustain: 0.1, release: 0.2 }
+        }).toDestination();
+      }
+      return synth;
+    }
+
+    // Bark sound synthesis
+    function playDogBark() {
+      try {
+        const s = getAudioContext();
+        const now = Tone.now();
+        s.triggerAttackRelease("C5", "16n", now);
+        s.triggerAttackRelease("E5", "16n", now + 0.06);
+        s.triggerAttackRelease("A4", "8n", now + 0.12);
+      } catch (e) {
+        console.log("Audio not supported or blocked", e);
+      }
+    }
+
+    // Pineapple toy squeak synthesis
+    function playPineappleSqueak() {
+      try {
+        const s = getAudioContext();
+        const now = Tone.now();
+        s.triggerAttackRelease("B6", "32n", now);
+        s.triggerAttackRelease("F#6", "32n", now + 0.05);
+        s.triggerAttackRelease("B6", "16n", now + 0.1);
+      } catch(e) {}
+    }
+
+    // Carrot crunch synthesis
+    function playCrunch() {
+      try {
+        const s = getAudioContext();
+        const now = Tone.now();
+        s.triggerAttackRelease("G2", "32n", now);
+        s.triggerAttackRelease("C3", "32n", now + 0.04);
+        s.triggerAttackRelease("E2", "16n", now + 0.08);
+      } catch(e) {}
+    }
+
+    // Whining sound synthesis
+    function playWhine() {
+      try {
+        const s = getAudioContext();
+        const now = Tone.now();
+        s.triggerAttackRelease("F5", "8n", now);
+        s.triggerAttackRelease("G5", "4n", now + 0.15);
+      } catch(e) {}
+    }
+
+    function triggerCarrotRain() {
+      playCrunch();
+      const emojis = ['🥕', '🥕', '🍍', '🥕'];
+      for (let i = 0; i < 20; i++) {
+        setTimeout(() => {
+          const el = document.createElement('div');
+          el.className = 'floating-item text-3xl sm:text-4xl';
+          el.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+          el.style.left = Math.random() * 92 + 'vw';
+          el.style.top = '-40px';
+          el.style.animationDuration = (1.5 + Math.random() * 1.5) + 's';
+          document.body.appendChild(el);
+          setTimeout(() => el.remove(), 3000);
+        }, i * 70);
+      }
+    }
+
+    function triggerBirthdayConfetti() {
+      playDogBark();
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 100,
+          spread: 70,
+          origin: { y: 0.6 }
+        });
+      }
+    }
+
+    let weonaLevel = 94;
+    const weonaPhrases = [
+      "Media weona crónica (Irreparable)",
+      "Pensando en la inmortalidad del cangrejo",
+      "Confundió una pantufla con un ladrón",
+      "Se chocó con la puerta balcón transparente",
+      "Comió pasto y se sorprendió del sabor",
+      "Nivel Dios: Se asustó con su propio gas"
+    ];
+
+    const weonaBar = document.getElementById('weona-meter-bar');
+    const weonaStatus = document.getElementById('weona-status-text');
+    const weonaBtn = document.getElementById('weona-boost-btn');
+
+    if (weonaBtn) {
+      weonaBtn.addEventListener('click', () => {
+        playWhine();
+        weonaLevel = (weonaLevel >= 100) ? 90 : weonaLevel + 5;
+        weonaBar.style.width = Math.min(weonaLevel, 100) + '%';
+        const randomPhrase = weonaPhrases[Math.floor(Math.random() * weonaPhrases.length)];
+        weonaStatus.textContent = randomPhrase;
+      });
+    }
+
+    let fullness = 20;
+    let happiness = 0;
+    let isGameOver = false;
+
+    const gameDogImg = document.getElementById('game-dog-img');
+    const dogSpeech = document.getElementById('dog-speech');
+    const bellyBar = document.getElementById('belly-bar');
+    const gameStatus = document.getElementById('game-status');
+    const gameHappiness = document.getElementById('game-happiness');
+    const gameFullnessText = document.getElementById('game-fullness-text');
+    const gameMessageBox = document.getElementById('game-message-box');
+
+    function updateGameUI(msg = null) {
+      fullness = Math.max(0, fullness);
+      bellyBar.style.width = Math.min(fullness, 100) + '%';
+      gameFullnessText.textContent = fullness + '%';
+      gameHappiness.textContent = happiness + ' pts';
+
+      if (msg) {
+        gameMessageBox.textContent = msg;
+        dogSpeech.textContent = msg;
+      }
+
+      // Check condition states
+      if (fullness >= 100) {
+        // VOMIT STATE
+        bellyBar.className = "bg-red-600 h-full rounded-full transition-all duration-300";
+        gameStatus.textContent = "🤢 ¡VOMITÓ! (Comió de más)";
+        gameDogImg.src = "image_3.png"; // Goofy/distressed selfie
+        gameMessageBox.textContent = "¡Oh no! Pippa comió demasiado y devolvió en la alfombra. Dale una siestita para recuperarse.";
+        dogSpeech.textContent = "¡Guácatela! 🤮";
+        happiness = Math.max(0, happiness - 20);
+        gameHappiness.textContent = happiness + ' pts';
+      } else if (fullness >= 75) {
+        bellyBar.className = "bg-amber-500 h-full rounded-full transition-all duration-300";
+        gameStatus.textContent = "🫄 Llena peligrosa";
+        gameDogImg.src = "image_7.png";
+      } else {
+        bellyBar.className = "bg-emerald-400 h-full rounded-full transition-all duration-300";
+        gameStatus.textContent = fullness < 30 ? "🥺 Tiene hambre" : "😊 Guatita contenta";
+        gameDogImg.src = "image_2.png";
+      }
+    }
+
+    // Feed Carrot
+    document.getElementById('feed-carrot-btn').addEventListener('click', () => {
+      playCrunch();
+      if (fullness >= 100) {
+        updateGameUI("¡Pippa está con la guatita descompuesta! Haz que duerma una siesta primero.");
+        return;
+      }
+      fullness += 15;
+      happiness += 10;
+      updateGameUI("¡Ñam ñam! La zanahoria crujiente es su favorita. 🥕✨");
+    });
+
+    // Give Pineapple Toy
+    document.getElementById('give-pineapple-btn').addEventListener('click', () => {
+      playPineappleSqueak();
+      happiness += 15;
+      gameDogImg.src = "image_8.png"; // Photo biting pineapple
+      updateGameUI("¡PIÑAAAA! ¡La muerde con frenesí y felicidad absoluta! 🍍💛");
+    });
+
+    // Digest Nap
+    document.getElementById('digest-nap-btn').addEventListener('click', () => {
+      fullness = Math.max(0, fullness - 30);
+      gameDogImg.src = "image.png"; // Sleeping like a carpet
+      updateGameUI("Zzzz... Pippa duerme estirada en el suelo con su vestido de gala. Digestión exitosa. 🌸");
+    });
+
+    // Eat poop button (The funny flaw)
+    document.getElementById('bad-poop-btn').addEventListener('click', () => {
+      playWhine();
+      happiness = Math.max(0, happiness - 15);
+      fullness += 25;
+      gameDogImg.src = "image_3.png";
+      updateGameUI("¡¡PIPPA NOOO!! ¡Soltó la caca! Es media weona y se la tragó igual. 💩🤢");
+    });
+
+    document.getElementById('bark-btn').addEventListener('click', () => {
+      playDogBark();
+    });
+
+    document.getElementById('carrot-rain-btn').addEventListener('click', () => {
+      triggerCarrotRain();
+    });
+
+    // Initial game status setup
+    updateGameUI();
+  </script>
+</body>
+</html>
